@@ -63,6 +63,35 @@
             android:paddingTop="15dp">
 
             <TextView
+                android:text="@string/label_tip"
+                style="@style/field_label" />
+
+            <Space style="@style/field_spacing" />
+
+            <EditText
+                android:id="@+id/editText_tip"
+                android:inputType="numberDecimal"
+                style="@style/field_editText" />
+        </TableRow>
+
+        <TableRow style="@style/tableRow">
+
+            <TextView
+                android:text="@string/label_total"
+                style="@style/field_label" />
+
+            <Space style="@style/field_spacing" />
+
+            <EditText
+                android:id="@+id/editText_total"
+                android:inputType="numberDecimal"
+                style="@style/field_editText" />
+        </TableRow>
+
+        <TableRow style="@style/tableRow"
+            android:paddingTop="15dp">
+
+            <TextView
                 android:text="@string/label_each_bill"
                 style="@style/field_label" />
 
