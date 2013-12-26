@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomTheme" parent="Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/CustomTheme.ActionBarStyle</item>
+        <item name="android:windowBackground">@color/actionbar_background_color</item>
+    </style>
+
+    <style name="CustomTheme.ActionBarStyle" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/CustomTheme.ActionBar.TitleTextStyle</item>
+        <item name="android:background">@color/actionbar_background_color</item>
+    </style>
+
+    <style name="CustomTheme.ActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/actionbar_text_color</item>
+    </style>
+
+</resources>
