@@ -5,5 +5,5 @@
 
     <color name="label_color">#547d57</color>
 
-    <color name="edittext_background_stroke">#ddd</color>
+    <color name="edittext_background_stroke">#eee</color>
 </resources>

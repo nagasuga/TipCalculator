@@ -60,7 +60,7 @@
         </TableRow>
 
         <TableRow style="@style/tableRow"
-            android:paddingTop="15dp">
+            android:paddingTop="20dp">
 
             <TextView
                 android:text="@string/label_tip"
@@ -89,7 +89,7 @@
         </TableRow>
 
         <TableRow style="@style/tableRow"
-            android:paddingTop="15dp">
+            android:paddingTop="20dp">
 
             <TextView
                 android:text="@string/label_each_bill"
