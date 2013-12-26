@@ -44,7 +44,6 @@ public class MainActivity extends ActionBarActivity {
         private EditText editTextEachBill;
         private EditText editTextEachTip;
         private EditText editTextEachTotal;
-        private int cursorPosition = 0;
 
         public PlaceholderFragment() {
         }
@@ -182,16 +181,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
         private void recalculateFields(EditText changedView) {
-//            private EditText editTextBill;
-//            private EditText editTextPeople;
-//            private EditText editTextTip;
-//            private EditText editTextTotal;
-//            private EditText editTextEachTip;
-//            private EditText editTextEachTotal;
-//            hangedText.setText(Integer.toString(Integer.parseInt(changedString)));
-//        } else if (!changedText.toString().matches("^(\\d+\\.\\d{2})$")) {
-//            changedText.setText(String.format("%.2f", Double.valueOf(changedString)));
-
             Log.d(TAG, "calculate");
 
             TipData data = new TipData();
