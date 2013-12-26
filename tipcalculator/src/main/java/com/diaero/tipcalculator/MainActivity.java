@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +42,11 @@ public class MainActivity extends ActionBarActivity {
         private EditText editTextBill;
         private EditText editTextPeople;
         private EditText editTextTipPercent;
-        private EditText editTextTip;
-        private EditText editTextTotal;
-        private EditText editTextEachBill;
-        private EditText editTextEachTip;
-        private EditText editTextEachTotal;
+        private TextView editTextTip;
+        private TextView editTextTotal;
+        private TextView editTextEachBill;
+        private TextView editTextEachTip;
+        private TextView editTextEachTotal;
 
         public PlaceholderFragment() {
         }
@@ -57,13 +58,16 @@ public class MainActivity extends ActionBarActivity {
 
             editTexts = getViewsByTag((ViewGroup) rootView, "editText");
 
-            setEditTexts();
-            initializeEditTexts();
+            setFields();
+            initializeEdittableFields();
+
+            TipData data = recalculateFields();
+            displayFields(data);
 
             return rootView;
         }
 
-        private void initializeEditTexts() {
+        private void initializeEdittableFields() {
             for (int i = 0; i < editTexts.size(); i++) {
                 EditText editText = (EditText) editTexts.get(i);
                 Log.d(TAG, editText.toString());
@@ -73,15 +77,15 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-        private void setEditTexts() {
+        private void setFields() {
             editTextBill = (EditText) rootView.findViewById(R.id.editText_bill);
             editTextPeople = (EditText) rootView.findViewById(R.id.editText_people);
             editTextTipPercent = (EditText) rootView.findViewById(R.id.editText_tip_percent);
-            editTextTip = (EditText) rootView.findViewById(R.id.editText_tip);
-            editTextTotal = (EditText) rootView.findViewById(R.id.editText_total);
-            editTextEachBill = (EditText) rootView.findViewById(R.id.editText_each_bill);
-            editTextEachTip = (EditText) rootView.findViewById(R.id.editText_each_tip);
-            editTextEachTotal = (EditText) rootView.findViewById(R.id.editText_each_total);
+            editTextTip = (TextView) rootView.findViewById(R.id.editText_tip);
+            editTextTotal = (TextView) rootView.findViewById(R.id.editText_total);
+            editTextEachBill = (TextView) rootView.findViewById(R.id.editText_each_bill);
+            editTextEachTip = (TextView) rootView.findViewById(R.id.editText_each_tip);
+            editTextEachTotal = (TextView) rootView.findViewById(R.id.editText_each_total);
         }
 
         private void enterInitialValue(EditText editText) {

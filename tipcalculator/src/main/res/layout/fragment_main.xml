@@ -68,9 +68,8 @@
 
             <Space style="@style/field_spacing" />
 
-            <EditText
+            <TextView
                 android:id="@+id/editText_tip"
-                android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
 
@@ -82,9 +81,8 @@
 
             <Space style="@style/field_spacing" />
 
-            <EditText
+            <TextView
                 android:id="@+id/editText_total"
-                android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
 
@@ -97,9 +95,8 @@
 
             <Space style="@style/field_spacing" />
 
-            <EditText
+            <TextView
                 android:id="@+id/editText_each_bill"
-                android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
 
@@ -111,9 +108,8 @@
 
             <Space style="@style/field_spacing" />
 
-            <EditText
+            <TextView
                 android:id="@+id/editText_each_tip"
-                android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
 
@@ -125,9 +121,8 @@
 
             <Space style="@style/field_spacing" />
 
-            <EditText
+            <TextView
                 android:id="@+id/editText_each_total"
-                android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
         
