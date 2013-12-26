@@ -53,7 +53,7 @@
             <Space style="@style/field_spacing" />
 
             <EditText
-                android:id="@+id/editText_tip"
+                android:id="@+id/editText_tip_percent"
                 android:tag="editText"
                 android:inputType="number"
                 style="@style/field_editText" />
@@ -70,7 +70,6 @@
 
             <EditText
                 android:id="@+id/editText_each_bill"
-                android:tag="editText"
                 android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
@@ -85,7 +84,6 @@
 
             <EditText
                 android:id="@+id/editText_each_tip"
-                android:tag="editText"
                 android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
@@ -100,7 +98,6 @@
 
             <EditText
                 android:id="@+id/editText_each_total"
-                android:tag="editText"
                 android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>

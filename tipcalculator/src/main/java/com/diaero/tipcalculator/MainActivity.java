@@ -55,6 +55,7 @@ public class MainActivity extends ActionBarActivity {
 
             editTexts = getViewsByTag((ViewGroup) rootView, "editText");
 
+            setEditTexts();
             initializeEditTexts();
 
             return rootView;
@@ -65,27 +66,18 @@ public class MainActivity extends ActionBarActivity {
                 EditText editText = (EditText) editTexts.get(i);
                 Log.d(TAG, editText.toString());
 
-                setEditText(editText);
                 enterInitialValue(editText);
                 addListener(editText);
             }
         }
 
-        private void setEditText(EditText editText) {
-            switch (editText.getId()) {
-                case R.id.editText_bill:
-                    editTextBill = editText;
-                case R.id.editText_people:
-                    editTextPeople = editText;
-                case R.id.editText_tip:
-                    editTextTipPercent = editText;
-                case R.id.editText_each_bill:
-                    editTextEachBill = editText;
-                case R.id.editText_each_tip:
-                    editTextEachTip = editText;
-                case R.id.editText_each_total:
-                    editTextEachTotal = editText;
-            }
+        private void setEditTexts() {
+            editTextBill = (EditText) rootView.findViewById(R.id.editText_bill);
+            editTextPeople = (EditText) rootView.findViewById(R.id.editText_people);
+            editTextTipPercent = (EditText) rootView.findViewById(R.id.editText_tip_percent);
+            editTextEachBill = (EditText) rootView.findViewById(R.id.editText_each_bill);
+            editTextEachTip = (EditText) rootView.findViewById(R.id.editText_each_tip);
+            editTextEachTotal = (EditText) rootView.findViewById(R.id.editText_each_total);
         }
 
         private void enterInitialValue(EditText editText) {
@@ -99,7 +91,7 @@ public class MainActivity extends ActionBarActivity {
                     return String.format("%.2f", Constants.DEFAULT_BILL_VALUE);
                 case R.id.editText_people:
                     return Integer.toString(Constants.DEFAULT_PEOPLE_VALUE);
-                case R.id.editText_tip:
+                case R.id.editText_tip_percent:
                     return Integer.toString(Constants.DEFAULT_TIP_PERCENT_VALUE);
                 case R.id.editText_each_bill:
                     return String.format("%.2f", Constants.DEFAULT_EACH_BILL_VALUE);
@@ -113,8 +105,11 @@ public class MainActivity extends ActionBarActivity {
         }
 
         private void addListener(EditText editText) {
+            Log.d(TAG, "addListener: " + editText);
             editText.addTextChangedListener(new EditTextWatcher(editText));
-            editText.setOnFocusChangeListener(new FocusChangeListener());
+
+            if (editText.getId() == R.id.editText_bill)
+                editText.setOnFocusChangeListener(new FocusChangeListener());
         }
 
         private static ArrayList<View> getViewsByTag(ViewGroup root, String tag) {
@@ -146,7 +141,10 @@ public class MainActivity extends ActionBarActivity {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d(TAG, "changed: " + editText + " => " + s.toString() + " == " + editText.getInputType());
+                Log.d(TAG, "changed: " + editText + " => " + s + ", " + start + ", " + before + ", " + count);
+
+                TipData data = recalculateFields();
+                displayFields(data);
             }
 
             public void afterTextChanged(Editable s) {
@@ -162,54 +160,41 @@ public class MainActivity extends ActionBarActivity {
                 if (!hasFocus) {
                     EditText changedView = (EditText) view;
                     cleanText(changedView);
-                    recalculateFields(changedView);
                 }
             }
 
             private void cleanText(EditText view) {
-                EditText changedText = (EditText) view;
-                Editable editable = changedText.getText();
+                Editable editable = view.getText();
                 String changedString = editable.toString();
 
-                if (changedText.getInputType() == InputType.TYPE_CLASS_NUMBER) {
-                    changedText.setText(Integer.toString(Integer.parseInt(changedString)));
-                } else if (!changedText.toString().matches("^(\\d+\\.\\d{2})$")) {
-                    changedText.setText(String.format("%.2f", Double.valueOf(changedString)));
+                if (view.getInputType() == InputType.TYPE_CLASS_NUMBER) {
+                    view.setText(Integer.toString(Integer.parseInt(changedString)));
+                } else if (!view.toString().matches("^(\\d+\\.\\d{2})$")) {
+                    view.setText(String.format("%.2f", Double.valueOf(changedString)));
                     Selection.setSelection(editable, changedString.length());
                 }
             }
+
         }
 
-        private void recalculateFields(EditText changedView) {
+
+        private void displayFields(TipData data) {
+            editTextEachBill.setText(String.format("%.2f", data.eachBill));
+            editTextEachTip.setText(String.format("%.2f", data.eachTip));
+            editTextEachTotal.setText(String.format("%.2f", data.eachTotal));
+        }
+
+        private TipData recalculateFields() {
             Log.d(TAG, "calculate");
 
             TipData data = new TipData();
 
             int people = Integer.parseInt(editTextPeople.getText().toString());
             int tipPercent = Integer.parseInt(editTextTipPercent.getText().toString());
+            Double bill = Double.valueOf(editTextBill.getText().toString());
+            data = Calculator.getInstance().calculateFromBill(bill, people, tipPercent);
 
-            switch (changedView.getId()) {
-                case R.id.editText_bill:
-                case R.id.editText_people:
-                case R.id.editText_tip:
-                    Double bill = Double.valueOf(editTextBill.getText().toString());
-                    data = Calculator.getInstance().calculateFromBill(bill, people, tipPercent);
-                    break;
-                case R.id.editText_each_bill:
-                    break;
-                case R.id.editText_each_tip:
-                    break;
-                case R.id.editText_each_total:
-                    break;
-                default:
-                    break;
-            }
-
-
-            editTextBill.setText(String.format("%.2f", data.bill));
-            editTextEachBill.setText(String.format("%.2f", data.eachBill));
-            editTextEachTip.setText(String.format("%.2f", data.eachTip));
-            editTextEachTotal.setText(String.format("%.2f", data.eachTotal));
+            return data;
         }
     }
 
