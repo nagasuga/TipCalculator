@@ -5,9 +5,13 @@
 
     <string name="label_bill">Bill Amount</string>
     <string name="label_people">People</string>
-    <string name="label_tip">Tip (%)</string>
-    <string name="label_total">Total Amount</string>
+    <string name="label_tip_percent">Tip (%)</string>
+
+    <string name="label_tip">Tip</string>
+    <string name="label_total">Total</string>
+
+    <string name="label_each_bill">Each Bill</string>
     <string name="label_each_tip">Each Tip</string>
-    <string name="label_each_total">Each Pays</string>
+    <string name="label_each_total">Each Total</string>
 
 </resources>

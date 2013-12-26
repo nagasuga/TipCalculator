@@ -24,6 +24,8 @@
 
             <EditText
                 android:id="@+id/editText_bill"
+                android:tag="editText"
+                android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
 
@@ -37,37 +39,43 @@
 
             <EditText
                 android:id="@+id/editText_people"
+                android:tag="editText"
+                android:inputType="number"
                 style="@style/field_editText" />
         </TableRow>
 
         <TableRow style="@style/tableRow">
 
             <TextView
-                android:text="@string/label_tip"
+                android:text="@string/label_tip_percent"
                 style="@style/field_label" />
 
             <Space style="@style/field_spacing" />
 
             <EditText
                 android:id="@+id/editText_tip"
-                style="@style/field_editText" />
-        </TableRow>
-
-        <TableRow style="@style/tableRow">
-
-            <TextView
-                android:text="@string/label_total"
-                style="@style/field_label" />
-
-            <Space style="@style/field_spacing" />
-
-            <EditText
-                android:id="@+id/editText_total"
+                android:tag="editText"
+                android:inputType="number"
                 style="@style/field_editText" />
         </TableRow>
 
         <TableRow style="@style/tableRow"
             android:paddingTop="15dp">
+
+            <TextView
+                android:text="@string/label_each_bill"
+                style="@style/field_label" />
+
+            <Space style="@style/field_spacing" />
+
+            <EditText
+                android:id="@+id/editText_each_bill"
+                android:tag="editText"
+                android:inputType="numberDecimal"
+                style="@style/field_editText" />
+        </TableRow>
+
+        <TableRow style="@style/tableRow">
 
             <TextView
                 android:text="@string/label_each_tip"
@@ -77,6 +85,8 @@
 
             <EditText
                 android:id="@+id/editText_each_tip"
+                android:tag="editText"
+                android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
 
@@ -90,6 +100,8 @@
 
             <EditText
                 android:id="@+id/editText_each_total"
+                android:tag="editText"
+                android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
         
