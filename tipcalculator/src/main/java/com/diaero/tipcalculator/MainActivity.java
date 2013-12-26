@@ -41,6 +41,8 @@ public class MainActivity extends ActionBarActivity {
         private EditText editTextBill;
         private EditText editTextPeople;
         private EditText editTextTipPercent;
+        private EditText editTextTip;
+        private EditText editTextTotal;
         private EditText editTextEachBill;
         private EditText editTextEachTip;
         private EditText editTextEachTotal;
@@ -75,6 +77,8 @@ public class MainActivity extends ActionBarActivity {
             editTextBill = (EditText) rootView.findViewById(R.id.editText_bill);
             editTextPeople = (EditText) rootView.findViewById(R.id.editText_people);
             editTextTipPercent = (EditText) rootView.findViewById(R.id.editText_tip_percent);
+            editTextTip = (EditText) rootView.findViewById(R.id.editText_tip);
+            editTextTotal = (EditText) rootView.findViewById(R.id.editText_total);
             editTextEachBill = (EditText) rootView.findViewById(R.id.editText_each_bill);
             editTextEachTip = (EditText) rootView.findViewById(R.id.editText_each_tip);
             editTextEachTotal = (EditText) rootView.findViewById(R.id.editText_each_total);
@@ -93,6 +97,10 @@ public class MainActivity extends ActionBarActivity {
                     return Integer.toString(Constants.DEFAULT_PEOPLE_VALUE);
                 case R.id.editText_tip_percent:
                     return Integer.toString(Constants.DEFAULT_TIP_PERCENT_VALUE);
+                case R.id.editText_tip:
+                    return String.format("%.2f", Constants.DEFAULT_TIP_VALUE);
+                case R.id.editText_total:
+                    return String.format("%.2f", Constants.DEFAULT_TOTAL_VALUE);
                 case R.id.editText_each_bill:
                     return String.format("%.2f", Constants.DEFAULT_EACH_BILL_VALUE);
                 case R.id.editText_each_tip:
@@ -179,6 +187,8 @@ public class MainActivity extends ActionBarActivity {
 
 
         private void displayFields(TipData data) {
+            editTextTip.setText(String.format("%.2f", data.tip));
+            editTextTotal.setText(String.format("%.2f", data.total));
             editTextEachBill.setText(String.format("%.2f", data.eachBill));
             editTextEachTip.setText(String.format("%.2f", data.eachTip));
             editTextEachTotal.setText(String.format("%.2f", data.eachTotal));

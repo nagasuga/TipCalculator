@@ -26,10 +26,11 @@ public class Calculator {
         data.people = people;
         data.tipPercent = tipPercent;
 
-        double tipAmount = getTipAmount(bill, tipPercent);
+        data.tip = getTipAmount(bill, tipPercent);
+        data.total = bill + data.tip;
 
         data.eachBill = bill / people;
-        data.eachTip = tipAmount / people;
+        data.eachTip = data.tip / people;
         data.eachTotal = data.eachBill + data.eachTip;
 
         return data;
