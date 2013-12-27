@@ -14,6 +14,7 @@
     <string name="label_each_tip">Each Tip</string>
     <string name="label_each_total">Each Total</string>
 
+    <string name="errormsg_invalid_input">Invalid input</string>
     <string name="errormsg_people">Must have at least 1 person to pay</string>
     <string name="errormsg_tip_percent">Tip cannot be less than 0</string>
 

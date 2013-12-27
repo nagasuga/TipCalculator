@@ -85,10 +85,10 @@ public class MainActivity extends ActionBarActivity {
             return rootView;
         }
 
+        // TODO: remember last entered values instead of hard coded defaults
         private void initializeEdittableFields() {
             for (int i = 0; i < editTexts.size(); i++) {
                 EditText editText = (EditText) editTexts.get(i);
-                Log.d(TAG, "initialize field: " + editText);
 
                 enterInitialValue(editText);
                 addListener(editText);
@@ -109,7 +109,6 @@ public class MainActivity extends ActionBarActivity {
         private void enterInitialValue(EditText editText) {
             String initValue = getInitialValue(editText);
             editText.setText(initValue);
-            Log.d(TAG, "  initialized " + editText + " => " + initValue);
         }
 
         private String getInitialValue(EditText editText) {
@@ -120,23 +119,12 @@ public class MainActivity extends ActionBarActivity {
                     return Integer.toString(Constants.DEFAULT_PEOPLE_VALUE);
                 case R.id.editText_tip_percent:
                     return Integer.toString(Constants.DEFAULT_TIP_PERCENT_VALUE);
-                case R.id.editText_tip:
-                    return String.format("%.2f", Constants.DEFAULT_TIP_VALUE);
-                case R.id.editText_total:
-                    return String.format("%.2f", Constants.DEFAULT_TOTAL_VALUE);
-                case R.id.editText_each_bill:
-                    return String.format("%.2f", Constants.DEFAULT_EACH_BILL_VALUE);
-                case R.id.editText_each_tip:
-                    return String.format("%.2f", Constants.DEFAULT_EACH_TIP_VALUE);
-                case R.id.editText_each_total:
-                    return String.format("%.2f", Constants.DEFAULT_EACH_TOTAL_VALUE);
                 default:
                     return "";
             }
         }
 
         private void addListener(EditText editText) {
-            Log.d(TAG, "addListener: " + editText);
             editText.addTextChangedListener(new EditTextWatcher(editText));
 
             if (editText.getId() == R.id.editText_bill)
@@ -171,20 +159,24 @@ public class MainActivity extends ActionBarActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
+            // TODO: Take initial input of "." as valid input for Bill Amount
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d(TAG, "changed: " + editText + " => " + s + ", " + start + ", " + before + ", " + count);
-
                 String inStr = s.toString();
 
-                if (isValidInput(inStr))
+                if (!isValidInput(inStr)) {
+                    showToast(getString(R.string.errormsg_invalid_input));
+                    setTextAndFocus("0");
                     return;
+                }
 
                 if ((editText == editTextPeople) && Integer.parseInt(inStr) < 1) {
                     showToast(getString(R.string.errormsg_people));
                     setTextAndFocus("1");
+                    return;
                 } else if ((editText == editTextTipPercent) && Integer.parseInt(inStr) < 0) {
                     showToast(getString(R.string.errormsg_tip_percent));
                     setTextAndFocus("0");
+                    return;
                 }
 
                 TipData data = recalculateFields();
@@ -253,14 +245,10 @@ public class MainActivity extends ActionBarActivity {
         }
 
         private TipData recalculateFields() {
-            Log.d(TAG, "calculate");
-
             TipData data = new TipData();
 
             int people = Integer.parseInt(editTextPeople.getText().toString());
-            Log.d(TAG, "people: " + people);
             int tipPercent = Integer.parseInt(editTextTipPercent.getText().toString());
-            Log.d(TAG, "tipPercent: " + tipPercent);
             Double bill = Double.valueOf(editTextBill.getText().toString());
             data = Calculator.getInstance().calculateFromBill(bill, people, tipPercent);
 
