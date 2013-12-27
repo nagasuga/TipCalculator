@@ -9,6 +9,7 @@ import android.text.InputType;
 import android.text.Selection;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -172,20 +174,42 @@ public class MainActivity extends ActionBarActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.d(TAG, "changed: " + editText + " => " + s + ", " + start + ", " + before + ", " + count);
 
-                if (s.length() == 0 || !isNumeric(s.toString())) {
-                    Log.d(TAG, "  don't recalculate");
+                String inStr = s.toString();
+
+                if (isValidInput(inStr))
                     return;
+
+                if ((editText == editTextPeople) && Integer.parseInt(inStr) < 1) {
+                    showToast(getString(R.string.errormsg_people));
+                    setTextAndFocus("1");
+                } else if ((editText == editTextTipPercent) && Integer.parseInt(inStr) < 0) {
+                    showToast(getString(R.string.errormsg_tip_percent));
+                    setTextAndFocus("0");
                 }
 
                 TipData data = recalculateFields();
                 displayFields(data);
             }
 
+            private boolean isValidInput(String inStr) {
+                return inStr.length() != 0 && isNumeric(inStr);
+            }
+
+            private void setTextAndFocus(String value) {
+                editText.setText(value);
+                editText.setSelection(0, editText.getText().length());
+            }
+
+            private void showToast(String errorMsg) {
+                Toast toast = Toast.makeText(rootView.getContext(), errorMsg, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+
             public void afterTextChanged(Editable s) {
             }
 
-            private boolean isNumeric(String str)
-            {
+            private boolean isNumeric(String str) {
                 NumberFormat formatter = NumberFormat.getInstance();
                 ParsePosition pos = new ParsePosition(0);
                 formatter.parse(str, pos);
