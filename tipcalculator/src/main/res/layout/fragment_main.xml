@@ -18,13 +18,13 @@
 
             <TextView
                 android:text="@string/label_bill"
-                style="@style/field_label" />
+                style="@style/field_label"/>
 
             <Space style="@style/field_spacing" />
 
             <EditText
                 android:id="@+id/editText_bill"
-                android:tag="editText"
+                android:tag="edittable_field"
                 android:inputType="numberDecimal"
                 style="@style/field_editText" />
         </TableRow>
@@ -39,7 +39,7 @@
 
             <EditText
                 android:id="@+id/editText_people"
-                android:tag="editText"
+                android:tag="edittable_field"
                 android:inputType="number"
                 style="@style/field_editText" />
         </TableRow>
@@ -54,7 +54,7 @@
 
             <EditText
                 android:id="@+id/editText_tip_percent"
-                android:tag="editText"
+                android:tag="edittable_field"
                 android:inputType="number"
                 style="@style/field_editText" />
         </TableRow>
@@ -70,7 +70,7 @@
 
             <TextView
                 android:id="@+id/editText_tip"
-                style="@style/field_editText" />
+                style="@style/field_non_edittable" />
         </TableRow>
 
         <TableRow style="@style/tableRow">
@@ -83,7 +83,7 @@
 
             <TextView
                 android:id="@+id/editText_total"
-                style="@style/field_editText" />
+                style="@style/field_non_edittable" />
         </TableRow>
 
         <TableRow style="@style/tableRow"
@@ -97,7 +97,7 @@
 
             <TextView
                 android:id="@+id/editText_each_bill"
-                style="@style/field_editText" />
+                style="@style/field_non_edittable" />
         </TableRow>
 
         <TableRow style="@style/tableRow">
@@ -110,7 +110,7 @@
 
             <TextView
                 android:id="@+id/editText_each_tip"
-                style="@style/field_editText" />
+                style="@style/field_non_edittable" />
         </TableRow>
 
         <TableRow style="@style/tableRow">
@@ -123,7 +123,7 @@
 
             <TextView
                 android:id="@+id/editText_each_total"
-                style="@style/field_editText" />
+                style="@style/field_non_edittable" />
         </TableRow>
         
 

@@ -1,5 +1,6 @@
 package com.diaero.tipcalculator;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -9,11 +10,15 @@ import android.text.Selection;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +61,18 @@ public class MainActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-            editTexts = getViewsByTag((ViewGroup) rootView, "editText");
+            rootView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Activity activity = getActivity();
+                    InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+
+                    return false;
+                }
+            });
+
+            editTexts = getViewsByTag((ViewGroup) rootView, "edittable_field");
 
             setFields();
             initializeEdittableFields();
@@ -70,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
         private void initializeEdittableFields() {
             for (int i = 0; i < editTexts.size(); i++) {
                 EditText editText = (EditText) editTexts.get(i);
-                Log.d(TAG, editText.toString());
+                Log.d(TAG, "initialize field: " + editText);
 
                 enterInitialValue(editText);
                 addListener(editText);
@@ -91,6 +107,7 @@ public class MainActivity extends ActionBarActivity {
         private void enterInitialValue(EditText editText) {
             String initValue = getInitialValue(editText);
             editText.setText(initValue);
+            Log.d(TAG, "  initialized " + editText + " => " + initValue);
         }
 
         private String getInitialValue(EditText editText) {
@@ -155,11 +172,24 @@ public class MainActivity extends ActionBarActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.d(TAG, "changed: " + editText + " => " + s + ", " + start + ", " + before + ", " + count);
 
+                if (s.length() == 0 || !isNumeric(s.toString())) {
+                    Log.d(TAG, "  don't recalculate");
+                    return;
+                }
+
                 TipData data = recalculateFields();
                 displayFields(data);
             }
 
             public void afterTextChanged(Editable s) {
+            }
+
+            private boolean isNumeric(String str)
+            {
+                NumberFormat formatter = NumberFormat.getInstance();
+                ParsePosition pos = new ParsePosition(0);
+                formatter.parse(str, pos);
+                return str.length() == pos.getIndex();
             }
         }
 
@@ -204,7 +234,9 @@ public class MainActivity extends ActionBarActivity {
             TipData data = new TipData();
 
             int people = Integer.parseInt(editTextPeople.getText().toString());
+            Log.d(TAG, "people: " + people);
             int tipPercent = Integer.parseInt(editTextTipPercent.getText().toString());
+            Log.d(TAG, "tipPercent: " + tipPercent);
             Double bill = Double.valueOf(editTextBill.getText().toString());
             data = Calculator.getInstance().calculateFromBill(bill, people, tipPercent);
 
