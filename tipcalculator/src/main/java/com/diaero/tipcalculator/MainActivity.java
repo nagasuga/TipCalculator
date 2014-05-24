@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     Activity activity = getActivity();
-                    InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 
                     return false;
@@ -234,7 +234,6 @@ public class MainActivity extends ActionBarActivity {
             }
 
         }
-
 
         private void displayFields(TipData data) {
             editTextTip.setText(String.format("%.2f", data.tip));
