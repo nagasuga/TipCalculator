@@ -1,6 +1,8 @@
 package com.diaero.tipcalculator;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -41,9 +43,10 @@ public class MainActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public class PlaceholderFragment extends Fragment {
 
         private static final String TAG = "MainActivity";
+        public static final String PREFERENCE_TAG = "com.diaero.tipcalculator";
         private View rootView;
         private List<View> editTexts = new ArrayList<View>();
         private EditText editTextBill;
@@ -54,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
         private TextView editTextEachBill;
         private TextView editTextEachTip;
         private TextView editTextEachTotal;
+        private TipData tipData = new TipData();
 
         public PlaceholderFragment() {
         }
@@ -79,13 +83,22 @@ public class MainActivity extends ActionBarActivity {
             setFields();
             initializeEdittableFields();
 
-            TipData data = recalculateFields();
-            displayFields(data);
+            tipData = recalculateFields();
+            displayFields(tipData);
 
             return rootView;
         }
 
-        // TODO: remember last entered values instead of hard coded defaults
+        public void onResume() {
+            super.onResume();
+            initializeEdittableFields();
+        }
+
+        public void onPause() {
+            super.onPause();
+            saveData();
+        }
+
         private void initializeEdittableFields() {
             for (int i = 0; i < editTexts.size(); i++) {
                 EditText editText = (EditText) editTexts.get(i);
@@ -112,13 +125,15 @@ public class MainActivity extends ActionBarActivity {
         }
 
         private String getInitialValue(EditText editText) {
+            SharedPreferences mPrefs = getSharedPreferences(PREFERENCE_TAG, Context.MODE_PRIVATE);
+
             switch (editText.getId()) {
                 case R.id.editText_bill:
-                    return String.format("%.2f", Constants.DEFAULT_BILL_VALUE);
+                    return mPrefs.getString("bill", String.format("%.2f", Constants.DEFAULT_BILL_VALUE));
                 case R.id.editText_people:
-                    return Integer.toString(Constants.DEFAULT_PEOPLE_VALUE);
+                    return String.valueOf(mPrefs.getInt("people", Constants.DEFAULT_PEOPLE_VALUE));
                 case R.id.editText_tip_percent:
-                    return Integer.toString(Constants.DEFAULT_TIP_PERCENT_VALUE);
+                    return String.valueOf(mPrefs.getInt("tipPercent", Constants.DEFAULT_TIP_PERCENT_VALUE));
                 default:
                     return "";
             }
@@ -131,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
                 editText.setOnFocusChangeListener(new FocusChangeListener());
         }
 
-        private static ArrayList<View> getViewsByTag(ViewGroup root, String tag) {
+        private ArrayList<View> getViewsByTag(ViewGroup root, String tag) {
             ArrayList<View> views = new ArrayList<View>();
             final int childCount = root.getChildCount();
             for (int i = 0; i < childCount; i++) {
@@ -244,15 +259,22 @@ public class MainActivity extends ActionBarActivity {
         }
 
         private TipData recalculateFields() {
-            TipData data = new TipData();
-
             int people = Integer.parseInt(editTextPeople.getText().toString());
             int tipPercent = Integer.parseInt(editTextTipPercent.getText().toString());
             Double bill = Double.valueOf(editTextBill.getText().toString());
-            data = Calculator.getInstance().calculateFromBill(bill, people, tipPercent);
+            tipData = Calculator.getInstance().calculateFromBill(bill, people, tipPercent);
 
-            return data;
+            return tipData;
+        }
+
+        private void saveData() {
+            SharedPreferences.Editor mEditor = getSharedPreferences(PREFERENCE_TAG,
+                    Context.MODE_PRIVATE).edit();
+
+            mEditor.putString("bill", String.valueOf(tipData.bill));
+            mEditor.putInt("people", tipData.people);
+            mEditor.putInt("tipPercent", tipData.tipPercent);
+            mEditor.commit();
         }
     }
-
 }
