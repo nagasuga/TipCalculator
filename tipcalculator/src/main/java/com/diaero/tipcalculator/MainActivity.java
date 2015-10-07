@@ -44,9 +44,6 @@ public class MainActivity extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public class PlaceholderFragment extends Fragment {
-
-        private static final String TAG = "MainActivity";
-        public static final String PREFERENCE_TAG = "com.diaero.tipcalculator";
         private View rootView;
         private List<View> editTexts = new ArrayList<View>();
         private EditText editTextBill;
@@ -125,7 +122,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         private String getInitialValue(EditText editText) {
-            SharedPreferences mPrefs = getSharedPreferences(PREFERENCE_TAG, Context.MODE_PRIVATE);
+            SharedPreferences mPrefs = getSharedPreferences(Constants.TAG, Context.MODE_PRIVATE);
 
             switch (editText.getId()) {
                 case R.id.editText_bill:
@@ -268,7 +265,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         private void saveData() {
-            SharedPreferences.Editor mEditor = getSharedPreferences(PREFERENCE_TAG,
+            SharedPreferences.Editor mEditor = getSharedPreferences(Constants.TAG,
                     Context.MODE_PRIVATE).edit();
 
             mEditor.putString("bill", String.valueOf(tipData.bill));
